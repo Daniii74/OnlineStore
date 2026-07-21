@@ -1,0 +1,77 @@
+﻿@model IEnumerable<OnlineStore.Models.Order>
+    
+@{
+    ViewData["Title"] = "Your Orders";
+}
+
+<style>
+    .order-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem 1rem 0 0;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="order-header d-flex justify-content-between align-items-center">
+                    <h2 class="fw-bold mb-0">Your Orders</h2>
+                    <span class="badge bg-light text-primary fs-6 px-3 py-2 rounded-pill shadow-sm">
+                        Total Orders: @(Model?.Count() ?? 0)
+                    </span>
+                </div>
+                
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="ps-4 py-3">Order ID</th>
+                                    <th scope="col" class="py-3">Order Date</th>
+                                    <th scope="col" class="py-3 text-end">Total Amount</th>
+                                    <th scope="col" class="pe-4 py-3 text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (var item in Model) {
+                                        <tr>
+                                            <td class="ps-4 fw-bold text-muted">
+                                                #@item.OrderId
+                                            </td>
+                                            <td class="text-dark">
+                                                @item.OrderDate.ToString("MMMM dd, yyyy h:mm tt")
+                                            </td>
+                                            <td class="text-end fw-bold text-success">
+                                                $@item.TotalAmount
+                                            </td>
+                                            <td class="pe-4 text-end">
+                                                <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm">View Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center py-5 text-muted">
+                                            <div class="py-4">
+                                                <h4 class="fw-bold mb-3">No orders found</h4>
+                                                <p class="mb-4">You haven't placed any orders yet.</p>
+                                                <a asp-controller="Home" asp-action="Index" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">Start Shopping</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

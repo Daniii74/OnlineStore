@@ -1,0 +1,58 @@
+﻿@model IEnumerable<OnlineStore.Models.CartItem>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    <img src="@item.Product.ImageUrl" alt="Product Image" style="max-width: 100px; max-height: 100px;" />   
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Product.Name)
+                </td>
+                <td>
+                        <a asp-action="IncQuantity" asp-route-id="@item.CartItemId" class="btn btn-outline-primary">+</a>
+                    @Html.DisplayFor(model => item.Quantity)
+                    <a asp-action="DecQuantity" asp-route-id="@item.CartItemId" class="btn btn-outline-primary">-</a>   
+                </td>
+                <td>
+                        @(item.Product.Price * item.Quantity)
+                </td>
+                <td> 
+                    <a asp-action="Delete" asp-route-id="@item.CartItemId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+    <h5><b>Total:</b> @Model.Sum(item => item.Product.Price * item.Quantity)</h5>
+    <form asp-controller="Orders" asp-action="PlaceOrder" method="post">
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+}
+else
+{
+    <p>Your cart is empty.</p>
+}

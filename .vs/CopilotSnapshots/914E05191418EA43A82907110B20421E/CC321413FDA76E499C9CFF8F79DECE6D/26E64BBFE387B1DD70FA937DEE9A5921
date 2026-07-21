@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OnlineStore</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OnlineStore.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #f8f9fc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+        .navbar-custom {
+            border-radius: 3rem;
+            padding: 0.75rem 1.5rem;
+            margin: 1.5rem auto 2.5rem;
+            max-width: 1300px;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #555 !important;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.15rem;
+            transition: all 0.2s ease;
+            border-radius: 2rem;
+        }
+        .nav-link:hover, .nav-link:focus {
+            background-color: rgba(30, 60, 114, 0.08);
+            color: #1e3c72 !important;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            color: #1e3c72 !important;
+            letter-spacing: -0.5px;
+            font-size: 1.4rem;
+        }
+        .footer-custom {
+            background: #ffffff;
+            border-top: none;
+            box-shadow: 0 -1rem 3rem rgba(0,0,0,.03);
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="px-3 position-sticky top-0" style="z-index: 1030;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm navbar-custom">
+            <div class="container-fluid px-0">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart3 text-primary" viewBox="0 0 16 16">
+                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    OnlineStore
+                </a>
+                <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 mb-2 mb-lg-0 ms-lg-3">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @if(User?.Identity?.IsAuthenticated == true && User.Identity.Name == "admin@email.com")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                            </li>
+                        }
+                        @if (User?.Identity?.IsAuthenticated == true && User.Identity.Name != "admin@email.com")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="nav-link" asp-area="" asp-controller="CartItems" asp-action="Index">
+                                    Cart
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container-fluid" style="max-width: 1300px;">
+        <main role="main" class="pb-3 px-2">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer-custom mt-auto">
+        <div class="container-fluid" style="max-width: 1300px;">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-4">
+                <span class="text-muted fw-bold">
+                    &copy; @DateTime.Now.Year - OnlineStore - All Rights Reserved.
+                </span>
+                <ul class="list-inline mb-0 mt-3 mt-md-0">
+                    <li class="list-inline-item"><a asp-area="" asp-controller="Home" asp-action="Index" class="text-muted text-decoration-none hover-primary">Home</a></li>
+                    <li class="list-inline-item"><span class="text-muted mx-2">&middot;</span></li>
+                    <li class="list-inline-item"><a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-muted text-decoration-none hover-primary">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .hover-primary:hover { color: #1e3c72 !important; text-decoration: underline !important; }
+    </style>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

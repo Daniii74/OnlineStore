@@ -1,0 +1,131 @@
+@model IEnumerable<OnlineStore.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<style>
+    .cart-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+    .qty-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .product-img-cart {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+    }
+</style>
+
+<div class="container py-2">
+    <div class="cart-header text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <h2 class="fw-bold mb-2 mb-md-0">Shopping Cart</h2>
+        <span class="fs-5 opacity-75">@(Model?.Count() ?? 0) Items</span>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            <!-- Cart Items List -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="ps-4">Product</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col" class="text-end">Total</th>
+                                    <th scope="col" class="pe-4 text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model) {
+                                    var lineTotal = item.Product.Price * item.Quantity;
+                                    <tr>
+                                        <td class="ps-4 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="product-img-cart me-3 shadow-sm" />
+                                                <div>
+                                                    <h6 class="mb-1 fw-bold text-dark">@item.Product.Name</h6>
+                                                    <small class="text-muted">$@item.Product.Price each</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3">
+                                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                                <a asp-action="DecQuantity" asp-route-id="@item.CartItemId" class="btn btn-outline-secondary rounded-circle qty-btn shadow-sm">-</a>
+                                                <span class="fw-bold px-2">@item.Quantity</span>
+                                                <a asp-action="IncQuantity" asp-route-id="@item.CartItemId" class="btn btn-outline-secondary rounded-circle qty-btn shadow-sm">+</a>
+                                            </div>
+                                        </td>
+                                        <td class="text-end py-3 fw-bold text-success">
+                                            $@lineTotal
+                                        </td>
+                                        <td class="pe-4 text-end py-3">
+                                            <a asp-action="Delete" asp-route-id="@item.CartItemId" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm">Remove</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary Sidebar -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 sticky-top" style="z-index: 0; top: 20px;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Order Summary</h5>
+                        
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Subtotal</span>
+                            <span class="fw-bold">$@Model.Sum(item => item.Product.Price * item.Quantity)</span>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fs-5 fw-bold">Total</span>
+                            <span class="fs-5 fw-bold text-success">$@Model.Sum(item => item.Product.Price * item.Quantity)</span>
+                        </div>
+                        
+                        <form asp-controller="Orders" asp-action="PlaceOrder" method="post">
+                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 shadow-sm fw-bold">Place Order</button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted small">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+            <div class="py-5">
+                <h3 class="fw-bold mb-3">Your cart is empty</h3>
+                <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm fw-bold">Start Shopping</a>
+            </div>
+        </div>
+    }
+</div>

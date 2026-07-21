@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="mb-4 text-primary">@ViewData["Title"]</h1>
+            <p class="lead">Your privacy is important to us. This privacy statement explains the personal data our online store processes, how we process it, and for what purposes.</p>
+            
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 card-title text-secondary">1. Information We Collect</h2>
+                    <p class="card-text">We collect data to operate effectively and provide you the best experiences with our services. You provide some of this data directly, such as when you create an account, purchase a product, or contact us for support.</p>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 card-title text-secondary">2. How We Use Your Information</h2>
+                    <p class="card-text">We use the data we collect to operate our business and provide you the products we offer, which includes using data to process transactions, improve our products, and personalize your experiences. We also may use the data to communicate with you.</p>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 card-title text-secondary">3. Reasons We Share Personal Data</h2>
+                    <p class="card-text">We share your personal data with your consent or as necessary to complete any transaction or provide any product you have requested or authorized. We also share data with vendors working on our behalf, or when required by law.</p>
+                </div>
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 card-title text-secondary">4. How to Access and Control Your Personal Data</h2>
+                    <p class="card-text">You can view, edit, or delete your personal data online through your account dashboard. You can also make choices about our collection and use of your data, including your communication preferences.</p>
+                </div>
+            </div>
+
+            <div class="mt-5 text-muted small">
+                <p>Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+                <p>If you have a privacy concern, complaint, or question for our Privacy Officer, please contact us by emailing privacy@onlinestore.example.com.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineStore.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav align-items-center ms-auto">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link fw-bold text-primary" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle me-1 mb-1" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+            @User.Identity?.Name
+        </a>
+    </li>
+    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <form class="form-inline m-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="btn btn-outline-danger rounded-pill px-4 shadow-sm btn-sm fw-bold">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <a class="btn btn-outline-primary rounded-pill px-4 shadow-sm fw-bold" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+        <a class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+}
+</ul>

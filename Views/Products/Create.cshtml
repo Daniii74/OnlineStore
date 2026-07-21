@@ -1,0 +1,92 @@
+@model OnlineStore.Models.Product
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem 1rem 0 0;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="admin-header">
+                    <h2 class="fw-bold mb-0">Create Product</h2>
+                    <p class="mb-0 opacity-75">Add a new item to the store inventory</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="CategoryId" class="form-label text-muted fw-bold ps-3 mb-1">Category</label>
+                            <select asp-for="CategoryId" class="form-select rounded-pill px-4" asp-items="ViewBag.Categories">
+                                <option value="">-- Select Category --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger ps-3 small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Name" class="form-control rounded-pill px-4" placeholder="Product Name" />
+                            <label asp-for="Name" class="px-4 text-muted">Product Name</label>
+                            <span asp-validation-for="Name" class="text-danger ps-4 small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label text-muted fw-bold ps-3 mb-1">Description</label>
+                            <textarea asp-for="Description" class="form-control rounded-4 p-3" rows="4" placeholder="Enter product details..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger ps-3 small"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input asp-for="Price" class="form-control rounded-pill px-4" placeholder="Price" />
+                                    <label asp-for="Price" class="px-4 text-muted">Price ($)</label>
+                                    <span asp-validation-for="Price" class="text-danger ps-4 small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Stock" class="form-control rounded-pill px-4" placeholder="Stock" />
+                                    <label asp-for="Stock" class="px-4 text-muted">Initial Stock Quantity</label>
+                                    <span asp-validation-for="Stock" class="text-danger ps-4 small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="image" class="form-label text-muted fw-bold ps-3 mb-1">Product Image</label>
+                            <input type="file" name="image" class="form-control rounded-pill px-4" />
+                            <div class="form-text ps-3">Upload a clean image showcasing the product.</div>
+                        </div>
+
+                        <div class="form-check form-switch ps-5 mb-5">
+                            <input class="form-check-input" type="checkbox" role="switch" asp-for="IsActive" id="isActive" checked>
+                            <label class="form-check-label fw-bold ms-2" for="isActive">Product is Active</label>
+                            <div class="form-text mt-1">If active, this product will immediately be visible to customers.</div>
+                            <span asp-validation-for="IsActive" class="text-danger d-block small mt-1"></span>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm fw-bold">Create Product</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm fw-bold">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
